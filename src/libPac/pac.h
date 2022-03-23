@@ -56,8 +56,8 @@ namespace lib_pac
 		EXPORTS void insert(const std::string& virt_path, std::shared_ptr<file_source_base> ptr);
 		EXPORTS std::shared_ptr<file_source_base> get(const std::string& file);
 
-		EXPORTS explicit pac_archive(std::wstring file);
+		EXPORTS explicit pac_archive(std::string file);
 		EXPORTS pac_archive();
-		EXPORTS archive_info save(std::wstring file, progress_callback callback = nullptr) const;
+		EXPORTS archive_info save(std::string file, progress_callback callback = nullptr) const;
 	};
 }

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <filesystem>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 #include "systemfilesource.h"
 
@@ -11,7 +11,7 @@ lib_pac::system_file_source::~system_file_source()
 {
 }
 
-lib_pac::system_file_source::system_file_source(std::wstring system_file)
+lib_pac::system_file_source::system_file_source(std::string system_file)
 	: m_file(system_file)
 {
 	m_size = fs::file_size(system_file);;

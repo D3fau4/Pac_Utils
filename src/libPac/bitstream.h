@@ -2,6 +2,7 @@
 #include "defines.h"
 
 #include <vector>
+#include <cstdint>
 
 namespace lib_pac
 {

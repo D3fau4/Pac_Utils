@@ -1,17 +1,14 @@
 // pack.cpp : Defines the entry point for the console application.
 //
-
-#include "stdafx.h"
-
 #include <filesystem>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
 #include "pac.h"
-#include "pacfilesource.h"
 #include "systemfilesource.h"
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 static fs::path path_make_relative(const fs::path& from, const fs::path& to);
 void pack_archive(const fs::path& path);
@@ -73,7 +70,7 @@ pack_archive(const fs::path& path)
 		if (fs::is_regular_file(it))
 		{
 			fs::path virt_path = path_make_relative(path, it);
-			auto ptr = std::make_unique<lib_pac::system_file_source>(it.path());
+			auto ptr = std::make_unique<lib_pac::system_file_source>(it.path().generic_string());
 			archive.insert(virt_path.string(), std::move(ptr));
 		}
 	}
@@ -81,7 +78,7 @@ pack_archive(const fs::path& path)
 	std::cout << "Found " << archive.num_files() << " Files" << std::endl;
 	std::cout << "Compressing..." << std::endl;
 
-	const auto save_info = archive.save(target, report_progress);
+	const auto save_info = archive.save(target.generic_string(), report_progress);
 
 	const float ratio = (save_info.compressed_size + save_info.header_size) * 100.f / (save_info.original_size);
 

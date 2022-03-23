@@ -1,5 +1,6 @@
 #include "bitstream.h"
 #include <algorithm>
+#include <cstdint>
 
 
 lib_pac::bit_writer::bit_writer(void* data)

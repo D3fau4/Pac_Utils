@@ -12,12 +12,12 @@ namespace lib_pac
 	class system_file_source : public file_source_base
 	{
 	private:
-		std::wstring m_file;
+		std::string m_file;
 		uint32_t m_size;
 
 	public:
 		EXPORTS ~system_file_source();
-		EXPORTS system_file_source(std::wstring system_file);
+		EXPORTS system_file_source(std::string system_file);
 
 		EXPORTS bool compressed() override;
 		EXPORTS uint32_t data_size() override;

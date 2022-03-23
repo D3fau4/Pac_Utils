@@ -11,10 +11,11 @@
 #include <vector>
 #include <iostream>
 #include <filesystem>
+#include <cstring>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
-lib_pac::pac_archive::pac_archive(std::wstring path)
+lib_pac::pac_archive::pac_archive(std::string path)
 	: m_entries()
 {
 	structs::PAC_HEADER header;
@@ -48,7 +49,7 @@ lib_pac::pac_archive::pac_archive()
 }
 
 lib_pac::pac_archive::archive_info
-lib_pac::pac_archive::save(std::wstring file, progress_callback callback) const
+lib_pac::pac_archive::save(std::string file, progress_callback callback) const
 {
 	std::ofstream output(file, std::ios::binary | std::ios::trunc);
 
@@ -123,7 +124,7 @@ lib_pac::pac_archive::save(std::wstring file, progress_callback callback) const
 
 		structs::PAC_DIRECTORY_ENTRY entry;
 		entry.FileId = file_id;
-		strcpy_s(entry.FileName, pair.first.c_str());
+		strcpy(entry.FileName, pair.first.c_str());
 		if (file_source->compressed())
 		{
 			const uint32_t comp_size = file_source->data_size();

@@ -2,6 +2,7 @@
 #include "defines.h"
 
 #include <cstdint>
+#include <cstddef>
 
 class memory_buffer
 {
