@@ -6,12 +6,12 @@
 #include <filesystem>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
 #include "pac.h"
-#include "pacfilesource.h"
 #include "systemfilesource.h"
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 static fs::path path_make_relative(const fs::path& from, const fs::path& to);
 void patch_archive(const fs::path& path);
@@ -65,7 +65,7 @@ patch_archive(const fs::path& path)
 	}
 
 	std::cout << "Reading archive: " << target.stem() << std::endl;
-	lib_pac::pac_archive archive(bak_file);
+	lib_pac::pac_archive archive(bak_file.string());
 	std::cout << "Replacing Files..." << std::endl;
 	fs::recursive_directory_iterator iter(path);
 
@@ -78,7 +78,7 @@ patch_archive(const fs::path& path)
 			if (archive.get(virt_path.string()) != nullptr)
 			{
 				n_repl++;
-				auto ptr = std::make_unique<lib_pac::system_file_source>(it.path());
+				auto ptr = std::make_unique<lib_pac::system_file_source>(it.path().string());
 				archive.insert(virt_path.string(), std::move(ptr));
 			}
 			else
@@ -92,7 +92,7 @@ patch_archive(const fs::path& path)
 	std::cout << "Replacing " << n_repl << " File(s)" << std::endl;
 	std::cout << "Compressing..." << std::endl;
 
-	const auto save_info = archive.save(target, report_progress);
+	const auto save_info = archive.save(target.string(), report_progress);
 
 	const float ratio = (save_info.compressed_size + save_info.header_size) * 100.f / (save_info.original_size);
 
@@ -137,3 +137,4 @@ path_make_relative(const fs::path& from, const fs::path& to)
 
 	return final_path;
 }
+

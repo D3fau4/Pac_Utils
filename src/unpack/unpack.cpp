@@ -12,8 +12,9 @@
 #include "pac.h"
 #include "membuf.h""
 #include "compressor.h"
+#include <cmath>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 void extract_archive(fs::path path);
 
@@ -43,7 +44,7 @@ extract_archive(fs::path path)
 	memory_buffer dec_buffer;
 
 	std::wcout << L"Extracting Archive: " << path.filename() << std::endl;
-	lib_pac::pac_archive archive(path);
+	lib_pac::pac_archive archive(path.string());
 
 
 	const int n_files = archive.num_files();

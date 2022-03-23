@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(src/libPac)
 
-add_library(libPac SHARED
+add_library(Nep SHARED
         src/libPac/bitstream.cpp
         src/libPac/bitstream.h
         src/libPac/compressor.cpp
@@ -25,6 +25,7 @@ add_library(libPac SHARED
         src/libPac/semaphore.h
         src/libPac/structs.h
         src/libPac/systemfilesource.cpp
-        src/libPac/systemfilesource.h)
+        src/libPac/systemfilesource.h
+        src/libPac/Helper.cpp src/libPac/Helper.h)
 
-target_compile_definitions(libPac PUBLIC LIBPACK)
+target_compile_definitions(Nep PUBLIC LIBPACK)
