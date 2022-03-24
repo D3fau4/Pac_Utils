@@ -26,6 +26,7 @@ add_library(Nep SHARED
         src/libPac/structs.h
         src/libPac/systemfilesource.cpp
         src/libPac/systemfilesource.h
-        src/libPac/Helper.cpp src/libPac/Helper.h)
+        src/libPac/Helper.cpp
+        src/libPac/Helper.h)
 
 target_compile_definitions(Nep PUBLIC LIBPACK)
