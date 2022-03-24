@@ -3,8 +3,10 @@
 //
 
 #include <filesystem>
+#include <fstream>
 #include "pac.h"
 #include "systemfilesource.h"
+#include "defines.h"
 
 namespace fs = std::filesystem;
 
@@ -36,9 +38,20 @@ path_make_relative(const fs::path& from, const fs::path& to)
     return final_path;
 }
 
-void
-patch_archive(const fs::path& path)
+EXPORTS void testlib(const char* s) {
+
+    const fs::path& path = s;
+    std::ofstream outfile ("test.txt");
+
+    outfile << path.string() << std::endl;
+
+    outfile.close();
+}
+
+EXPORTS void
+patch_archive(const char* s)
 {
+    const fs::path& path = s;
     fs::path root = path.parent_path();
     fs::path base = path.stem();
 

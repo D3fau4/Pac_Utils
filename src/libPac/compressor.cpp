@@ -282,13 +282,13 @@ lib_pac::compressor_info::set_data_chunk(int n, uint32_t decompressed_size, uint
 }
 
 
-uint32_t
+EXPORTS inline uint32_t
 lib_pac::compressor_info::input_size() const
 {
 	return m_input_size;
 }
 
-uint32_t
+EXPORTS uint32_t
 lib_pac::compressor_info::output_size() const
 {
 	return m_output_size;
@@ -330,7 +330,7 @@ lib_pac::compressor_info::chunk_data_offset(int i) const
 	return m_chunk_data_offsets[i];
 }
 
-const uint8_t*
+EXPORTS const uint8_t*
 lib_pac::compressor_info::input() const
 {
 	return m_data_input;

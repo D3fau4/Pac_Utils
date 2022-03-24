@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <cstdint>
+#include <cstddef>
 
 namespace lib_pac
 {

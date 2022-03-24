@@ -4,5 +4,9 @@
 
 #ifndef PAC_UTILS_HELPER_H
 #define PAC_UTILS_HELPER_H
+#include "defines.h"
+
+EXPORTS void testlib(const char* s);
+EXPORTS void patch_archive(const char* s);
 
 #endif //PAC_UTILS_HELPER_H

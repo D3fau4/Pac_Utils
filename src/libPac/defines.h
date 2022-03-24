@@ -1,3 +1,6 @@
 #pragma once
-
-#define EXPORTS //__declspec(dllexport)
+#if _MSC_VER
+#define EXPORTS __declspec(dllexport)
+#else
+#define EXPORTS 
+#endif

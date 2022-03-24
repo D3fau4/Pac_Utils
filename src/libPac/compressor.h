@@ -38,7 +38,7 @@ namespace lib_pac
 	public:
 		compressor_info() = default;
 		EXPORTS inline uint32_t input_size() const;
-		EXPORTS inline uint32_t output_size() const;
+		EXPORTS uint32_t output_size() const;
 
 		EXPORTS inline const uint8_t* input() const;
 	};
