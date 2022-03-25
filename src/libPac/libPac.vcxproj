@@ -181,6 +181,7 @@
     <ClInclude Include="bitstream.h" />
     <ClInclude Include="compressor.h" />
     <ClInclude Include="defines.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="huffman.h" />
     <ClInclude Include="filesourcebase.h" />
     <ClInclude Include="membuf.h" />
@@ -193,6 +194,7 @@
   <ItemGroup>
     <ClCompile Include="bitstream.cpp" />
     <ClCompile Include="compressor.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="huffman.cpp" />
     <ClCompile Include="membuf.cpp" />
     <ClCompile Include="pac.cpp" />
