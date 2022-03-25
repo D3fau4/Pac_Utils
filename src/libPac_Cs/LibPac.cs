@@ -2,10 +2,10 @@
 {
     public static partial class LibPac
     {
-#if UNITY_STANDALONE_LINUX || DEBUG
+#if UNITY_STANDALONE_LINUX
         internal const string DllName = "libNep";
 #else
-        internal const string DllName = "__Internal";
+        internal const string DllName = "libPac";
 #endif
     }
 }
