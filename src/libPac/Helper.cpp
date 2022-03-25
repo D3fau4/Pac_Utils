@@ -36,11 +36,21 @@ path_make_relative(const fs::path &from, const fs::path &to)
 
 EXPORTS void testlib(const char *s)
 {
-
     const fs::path &path = s;
     std::ofstream outfile("test.txt");
 
     outfile << path.string() << std::endl;
+
+    outfile.close();
+}
+
+EXPORTS void testpath(const char *s){
+    const fs::path &path = s;
+    std::ofstream outfile("test.txt");
+    std::string str = path.string();
+    std::replace(str.begin(), str.end(), '\\', '/');
+    outfile << path.string() + "\n" + path.parent_path().make_preferred().string() + "\n" + 
+    str << std::endl;
 
     outfile.close();
 }
@@ -142,7 +152,7 @@ extract_archive(const char *s)
 
             file_source->copy_data(dec_buffer.data(), 0, dec_sz);
         }
-        fs::create_directories(v_path.parent_path());
+        //fs::create_directories(v_path.parent_path());
 
 #if 0
         HANDLE hFile = CreateFileA(v_path.string().c_str(), GENERIC_WRITE, 0, nullptr, CREATE_NEW,
@@ -160,7 +170,12 @@ extract_archive(const char *s)
 #endif
 #if 1
         FILE *f;
-        f = fopen(v_path.string().c_str(), "wb");
+        std::string tmp = v_path.string();
+        std::replace(tmp.begin(), tmp.end(), '\\', '/');
+        fs::path fixedpath = tmp;
+        if (!fs::exists(fixedpath.parent_path()))
+            fs::create_directories(fixedpath.parent_path());
+        f = fopen(fixedpath.string().c_str(), "wb");
         fwrite(dec_buffer.data(), 1, dec_sz, f);
         fflush(f);
         fclose(f);

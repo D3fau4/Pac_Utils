@@ -14,7 +14,6 @@ add_library(Nep SHARED
         src/libPac/filesourcebase.h
         src/libPac/huffman.cpp
         src/libPac/huffman.h
-        src/libPac/logcfg.cpp
         src/libPac/membuf.cpp
         src/libPac/membuf.h
         src/libPac/pac.cpp
