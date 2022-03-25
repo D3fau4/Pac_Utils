@@ -41,5 +41,5 @@ jobs:
         # Artifact name
         name: libPac # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: /src/libPac/bin/Release/
+        path: ${{github.workspace}}/src/libPac/bin/Release/
         # The desired behavior if no files are found using the provided path.
