@@ -16,8 +16,10 @@
 #include "defines.h"
 #include "compressor.h"
 
-EXPORTS void testlib(const char* s);
-EXPORTS void testpath(const char *s);
 EXPORTS void patch_archive(const char* s);
 EXPORTS void extract_archive(const char *s);
+EXPORTS void pack_archive(const char *s);
+
+EXPORTS void testlib(const char* s);
+EXPORTS void testpath(const char *s);
 #endif //PAC_UTILS_HELPER_H

@@ -34,25 +34,47 @@ path_make_relative(const fs::path &from, const fs::path &to)
     return final_path;
 }
 
-EXPORTS void testlib(const char *s)
+EXPORTS void
+pack_archive(const char *s)
 {
     const fs::path &path = s;
-    std::ofstream outfile("test.txt");
+    fs::path root = path.parent_path();
+    fs::path base = path.stem();
 
-    outfile << path.string() << std::endl;
+    fs::path target = path;
+    target.replace_extension(".pac");
 
-    outfile.close();
-}
+    if (is_regular_file(target))
+    {
+        fs::path bak_file = target;
+        bak_file.replace_extension(".pac.bak");
 
-EXPORTS void testpath(const char *s){
-    const fs::path &path = s;
-    std::ofstream outfile("test.txt");
-    std::string str = path.string();
-    std::replace(str.begin(), str.end(), '\\', '/');
-    outfile << path.string() + "\n" + path.parent_path().make_preferred().string() + "\n" + 
-    str << std::endl;
+        if (!is_regular_file(bak_file))
+        {
+            fs::rename(target, bak_file);
+        }
+        else
+        {
+        }
+    }
 
-    outfile.close();
+    fs::recursive_directory_iterator iter(path);
+
+    lib_pac::pac_archive archive;
+
+    for (auto &it : iter)
+    {
+        if (fs::is_regular_file(it))
+        {
+            fs::path virt_path = path_make_relative(path, it);
+            auto ptr = std::make_unique<lib_pac::system_file_source>(it.path().generic_string());
+            archive.insert(virt_path.string(), std::move(ptr));
+        }
+    }
+
+    const auto save_info = archive.save(target.generic_string(), NULL);
+
+    const float ratio = (save_info.compressed_size + save_info.header_size) * 100.f / (save_info.original_size);
 }
 
 EXPORTS void
@@ -120,14 +142,16 @@ extract_archive(const char *s)
 
     int cur_file = 0;
 
-    for (std::basic_string<char> elem: archive) {
+    for (std::basic_string<char> elem : archive)
+    {
         const fs::path v_path = path.stem().append(elem);
         auto file_source = archive.get(elem);
 
         size_t dec_sz;
 
         std::cout << "[" << std::setw(f_digits) << cur_file + 1 << "/" << n_files << "] " << v_path << std::endl;
-        if (file_source->compressed()) {
+        if (file_source->compressed())
+        {
             comp_buffer.reserve(file_source->data_size());
 
             file_source->copy_data(comp_buffer.data(), 0, file_source->data_size());
@@ -138,7 +162,8 @@ extract_archive(const char *s)
             dec_sz = dec_info->output_size();
             const uint32_t expected_size = file_source->unpacked_size();
 
-            if (dec_sz != expected_size) {
+            if (dec_sz != expected_size)
+            {
                 std::cerr << "Size Mismatch: " << v_path;
                 std::cerr << " - Expected " << expected_size << " got " << dec_sz << std::endl;
             }
@@ -146,13 +171,15 @@ extract_archive(const char *s)
             dec_buffer.reserve(dec_sz);
 
             lib_pac::compressor::decompress(*dec_info, dec_buffer.data());
-        } else {
+        }
+        else
+        {
             dec_sz = file_source->unpacked_size();
             dec_buffer.reserve(dec_sz);
 
             file_source->copy_data(dec_buffer.data(), 0, dec_sz);
         }
-        //fs::create_directories(v_path.parent_path());
+        // fs::create_directories(v_path.parent_path());
 
 #if 0
         HANDLE hFile = CreateFileA(v_path.string().c_str(), GENERIC_WRITE, 0, nullptr, CREATE_NEW,
@@ -183,4 +210,27 @@ extract_archive(const char *s)
 
         cur_file++;
     }
+}
+
+EXPORTS void testlib(const char *s)
+{
+    const fs::path &path = s;
+    std::ofstream outfile("test.txt");
+
+    outfile << path.string() << std::endl;
+
+    outfile.close();
+}
+
+EXPORTS void testpath(const char *s)
+{
+    const fs::path &path = s;
+    std::ofstream outfile("test.txt");
+    std::string str = path.string();
+    std::replace(str.begin(), str.end(), '\\', '/');
+    outfile << path.string() + "\n" + path.parent_path().make_preferred().string() + "\n" +
+                   str
+            << std::endl;
+
+    outfile.close();
 }
