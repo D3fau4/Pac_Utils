@@ -18,6 +18,7 @@
 
 EXPORTS void testlib(const char* s);
 EXPORTS void testpath(const char *s);
-EXPORTS void patch_archive(const char* s);
-EXPORTS void extract_archive(const char *s);
+EXPORTS void patch_archive(const char* pac, const char* folder);
+EXPORTS void extract_archive(const char* pac, const char* folder);
+EXPORTS void extract_archive_withlist(const char* pac, char** ListFiles, int numoffiles, const char* folder);
 #endif //PAC_UTILS_HELPER_H

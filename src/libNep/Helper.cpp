@@ -201,11 +201,10 @@ extract_archive(const char *pac, const char *folder)
         FILE *f;
         std::string tmp = v_path.string();
         std::replace(tmp.begin(), tmp.end(), '\\', '/');
-        fs::path fixedpath = folder;
-        fixedpath /= tmp;
-        if (!fs::exists(fixedpath.parent_path()))
-            fs::create_directories(fixedpath.parent_path());
-        f = fopen(fixedpath.string().c_str(), "wb");
+        outputfolder /= tmp;
+        if (!fs::exists(outputfolder.parent_path()))
+            fs::create_directories(outputfolder.parent_path());
+        f = fopen(outputfolder.string().c_str(), "wb");
         fwrite(dec_buffer.data(), 1, dec_sz, f);
         fflush(f);
         fclose(f);
@@ -299,11 +298,10 @@ extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, cons
         FILE *f;
         std::string tmp = v_path.string();
         std::replace(tmp.begin(), tmp.end(), '\\', '/');
-        fs::path fixedpath = folder;
-        fixedpath /= tmp;
-        if (!fs::exists(fixedpath.parent_path()))
-            fs::create_directories(fixedpath.parent_path());
-        f = fopen(fixedpath.string().c_str(), "wb");
+        outputfolder /= tmp;
+        if (!fs::exists(outputfolder.parent_path()))
+            fs::create_directories(outputfolder.parent_path());
+        f = fopen(outputfolder.string().c_str(), "wb");
         fwrite(dec_buffer.data(), 1, dec_sz, f);
         fflush(f);
         fclose(f);

@@ -10,7 +10,7 @@ namespace libPac_Cs
 #if UNITY_STANDALONE_LINUX
             EntryPoint = "_Z15extract_archivePKcS0_")]
 #else
-            EntryPoint = "?extract_archive@@YAXPBD@Z")]
+            EntryPoint = "?extract_archive@@YAXPBD0@Z")]
 #endif
         public static extern void extract_archive(String pac, String folder = "");
 
@@ -19,7 +19,7 @@ namespace libPac_Cs
 #if UNITY_STANDALONE_LINUX
             EntryPoint = "_Z24extract_archive_withlistPKcS0_PPci")]
 #else
-            EntryPoint = "?extract_archive@@YAXPBD@Z")]
+            EntryPoint = "?extract_archive_withlist@@YAXPBDPAPADH0@Z")]
 #endif
         public static extern void extract_archive_withlist(String pac, String[] ListOfFiles, int numoffiles, String folder = "");
 
@@ -37,7 +37,7 @@ namespace libPac_Cs
 #if UNITY_STANDALONE_LINUX
             EntryPoint = "_Z13patch_archivePKcS0_")]
 #else
-            EntryPoint = "?patch_archive@@YAXPBD@Z")]
+            EntryPoint = "?patch_archive@@YAXPBD0@Z")]
 #endif
         public static extern void patch_archive(String pac, String folder = "");
 
