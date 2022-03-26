@@ -8,11 +8,20 @@ namespace libPac_Cs
         [DllImport(LibPac.DllName,
             CallingConvention = CallingConvention.Cdecl,
 #if UNITY_STANDALONE_LINUX
-            EntryPoint = "_Z15extract_archivePKc")]
+            EntryPoint = "_Z15extract_archivePKcS0_")]
 #else
             EntryPoint = "?extract_archive@@YAXPBD@Z")]
 #endif
-        public static extern void extract_archive(String path);
+        public static extern void extract_archive(String pac, String folder = "");
+
+                [DllImport(LibPac.DllName,
+            CallingConvention = CallingConvention.Cdecl,
+#if UNITY_STANDALONE_LINUX
+            EntryPoint = "_Z24extract_archive_withlistPKcS0_PPci")]
+#else
+            EntryPoint = "?extract_archive@@YAXPBD@Z")]
+#endif
+        public static extern void extract_archive_withlist(String pac, String[] ListOfFiles, int numoffiles, String folder = "");
 
         [DllImport(LibPac.DllName,
             CallingConvention = CallingConvention.Cdecl,
@@ -26,11 +35,11 @@ namespace libPac_Cs
         [DllImport(LibPac.DllName,
             CallingConvention = CallingConvention.Cdecl,
 #if UNITY_STANDALONE_LINUX
-            EntryPoint = "_Z13patch_archivePKc")]
+            EntryPoint = "_Z13patch_archivePKcS0_")]
 #else
             EntryPoint = "?patch_archive@@YAXPBD@Z")]
 #endif
-        public static extern void patch_archive(String path);
+        public static extern void patch_archive(String pac, String folder = "");
 
 #if UNITY_EDITOR || DEBUG
         [DllImport(LibPac.DllName,
