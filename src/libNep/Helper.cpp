@@ -131,7 +131,8 @@ EXPORTS void
 extract_archive(const char *pac, const char *folder)
 {
     fs::path path = pac;
-    if (folder == NULL){
+    if (folder == NULL)
+    {
         fs::path temp = path;
         temp.replace_extension();
         folder = temp.filename().string().c_str();
@@ -224,7 +225,8 @@ EXPORTS void
 extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, const char *folder)
 {
     fs::path path = pac;
-    if (folder == NULL){
+    if (folder == NULL)
+    {
         fs::path temp = path;
         temp.replace_extension();
         folder = temp.filename().string().c_str();
@@ -246,8 +248,10 @@ extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, cons
         /* Controlar array */
         const fs::path v_path = elem;
         bool found = false;
-        for (int i = 0; i < numoffiles; i++){
-            if (v_path.c_str() == ListFiles[i]) {
+        for (int i = 0; i < numoffiles; i++)
+        {
+            if (v_path.c_str() == ListFiles[i])
+            {
                 found = true;
                 break;
             }
