@@ -131,6 +131,11 @@ EXPORTS void
 extract_archive(const char *pac, const char *folder)
 {
     fs::path path = pac;
+    if (folder == NULL){
+        fs::path temp = path;
+        temp.replace_extension();
+        folder = temp.filename().string().c_str();
+    }
     fs::path outputfolder = folder;
     memory_buffer comp_buffer;
     memory_buffer dec_buffer;
@@ -146,7 +151,7 @@ extract_archive(const char *pac, const char *folder)
     for (std::basic_string<char> elem : archive)
     {
         /* Controlar array */
-        const fs::path v_path = path.stem().append(elem);
+        const fs::path v_path = elem;
         auto file_source = archive.get(elem);
 
         size_t dec_sz;
@@ -201,10 +206,11 @@ extract_archive(const char *pac, const char *folder)
         FILE *f;
         std::string tmp = v_path.string();
         std::replace(tmp.begin(), tmp.end(), '\\', '/');
-        outputfolder /= tmp;
-        if (!fs::exists(outputfolder.parent_path()))
-            fs::create_directories(outputfolder.parent_path());
-        f = fopen(outputfolder.string().c_str(), "wb");
+        fs::path fixedpath = folder;
+        fixedpath /= tmp;
+        if (!fs::exists(fixedpath.parent_path()))
+            fs::create_directories(fixedpath.parent_path());
+        f = fopen(fixedpath.string().c_str(), "wb");
         fwrite(dec_buffer.data(), 1, dec_sz, f);
         fflush(f);
         fclose(f);
@@ -218,6 +224,11 @@ EXPORTS void
 extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, const char *folder)
 {
     fs::path path = pac;
+    if (folder == NULL){
+        fs::path temp = path;
+        temp.replace_extension();
+        folder = temp.filename().string().c_str();
+    }
     fs::path outputfolder = folder;
     memory_buffer comp_buffer;
     memory_buffer dec_buffer;
@@ -233,7 +244,7 @@ extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, cons
     for (std::basic_string<char> elem : archive)
     {
         /* Controlar array */
-        const fs::path v_path = path.stem().append(elem);
+        const fs::path v_path = elem;
         bool found = false;
         for (int i = 0; i < numoffiles; i++){
             if (v_path.c_str() == ListFiles[i]) {
@@ -298,10 +309,11 @@ extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, cons
         FILE *f;
         std::string tmp = v_path.string();
         std::replace(tmp.begin(), tmp.end(), '\\', '/');
-        outputfolder /= tmp;
-        if (!fs::exists(outputfolder.parent_path()))
-            fs::create_directories(outputfolder.parent_path());
-        f = fopen(outputfolder.string().c_str(), "wb");
+        fs::path fixedpath = folder;
+        fixedpath /= tmp;
+        if (!fs::exists(fixedpath.parent_path()))
+            fs::create_directories(fixedpath.parent_path());
+        f = fopen(fixedpath.string().c_str(), "wb");
         fwrite(dec_buffer.data(), 1, dec_sz, f);
         fflush(f);
         fclose(f);
