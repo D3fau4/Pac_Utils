@@ -23,7 +23,7 @@ bool lib_pac::pac_file_source::compressed()
 	return m_compressed;
 }
 
-size_t lib_pac::pac_file_source::data_size()
+uint32_t lib_pac::pac_file_source::data_size()
 {
 	return m_comp_size;
 }

@@ -82,7 +82,7 @@ lib_pac::compressor::prepare_compression(const char* input, size_t input_size, u
 	for (int i = 0; i < num_blocks; ++i)
 	{
 		const uint32_t src_off = i * block_size;
-		const uint32_t src_sz = std::min(block_size, input_size - src_off);
+		const uint32_t src_sz = std::min<uint32_t>(block_size, input_size - src_off);
 		futures[i] = std::async(std::launch::async, block_analyze, data8 + src_off, src_sz, std::ref(limiter));
 	}
 
@@ -91,7 +91,7 @@ lib_pac::compressor::prepare_compression(const char* input, size_t input_size, u
 	for (int i = 0; i < num_blocks; ++i)
 	{
 		const uint32_t src_off = i * block_size;
-		const uint32_t src_sz = std::min(block_size, input_size - src_off);
+		const uint32_t src_sz = std::min<uint32_t>(block_size, input_size - src_off);
 
 		auto tuple = futures[i].get();
 		const size_t cmp_size = std::get<0>(tuple);

@@ -130,7 +130,7 @@ extract_archive(const char *pac, const char *folder)
 
     for (auto& elem : archive)
     {
-        const fs::path v_path = path.stem().append(elem);
+        const fs::path v_path = elem;
         auto file_source = archive.get(elem);
 
         size_t dec_sz;
@@ -222,7 +222,7 @@ extract_archive_withlist(const char* pac, char** ListFiles, int numoffiles, cons
 
     for (auto& elem : archive)
     {
-        const fs::path v_path = path.stem().append(elem);
+        const fs::path v_path = elem;
 
         bool found = false;
         for (int i = 0; i < numoffiles; i++) {
