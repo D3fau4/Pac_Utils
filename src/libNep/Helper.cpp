@@ -250,7 +250,7 @@ extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, cons
         bool found = false;
         for (int i = 0; i < numoffiles; i++)
         {
-            if (v_path.c_str() == ListFiles[i])
+            if (v_path.string().compare(ListFiles[i]) == 0)
             {
                 found = true;
                 break;
