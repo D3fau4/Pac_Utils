@@ -135,11 +135,7 @@ EXPORTS void
 extract_archive(const char *pac, const char *folder)
 {
     fs::path path = pac;
-    fs::path outputfolder;
-    if (folder != "")
-        outputfolder = folder;
-    else
-        path.replace_extension();
+    fs::path outputfolder = folder;
     memory_buffer comp_buffer;
     memory_buffer dec_buffer;
 
@@ -226,9 +222,8 @@ EXPORTS void
 extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, const char *folder)
 {
     fs::path path = pac;
-    fs::path outputfolder;
     if (folder != "")
-        outputfolder = folder;
+        fs::path outputfolder = folder;
     else
         path.replace_extension();
     memory_buffer comp_buffer;
