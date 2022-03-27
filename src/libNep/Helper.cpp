@@ -112,11 +112,7 @@ patch_archive(const char *pac, const char *folder)
     {
         if (fs::is_regular_file(it))
         {
-            // convert linux path separator to Windows
-            std::string tmp = path_make_relative(path, it);
-            std::replace(tmp.begin(), tmp.end(), '/','\\');
-
-            fs::path virt_path = tmp;
+            fs::path virt_path = path_make_relative(path, it);
             if (archive.get(virt_path.string()) != nullptr)
             {
                 n_repl++;
@@ -222,10 +218,7 @@ EXPORTS void
 extract_archive_withlist(const char *pac, char **ListFiles, int numoffiles, const char *folder)
 {
     fs::path path = pac;
-    if (folder != "")
-        fs::path outputfolder = folder;
-    else
-        path.replace_extension();
+    fs::path outputfolder = folder;
     memory_buffer comp_buffer;
     memory_buffer dec_buffer;
 
