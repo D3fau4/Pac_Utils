@@ -212,9 +212,16 @@ lib_pac::pac_archive::get(const std::string& file)
 void
 lib_pac::pac_archive::insert(const std::string& virt_path, std::shared_ptr<file_source_base> src)
 {
-	auto found = m_entries.find(virt_path);
+    std::string m_file = virt_path;
+	auto found = m_entries.find(m_file);
 	if (found != m_entries.end())
 		m_entries.erase(virt_path);
+    else
+    {
+        std::replace(m_file.begin(), m_file.end(), '/', '\\');
+        if (found != m_entries.end())
+            m_entries.erase(virt_path);
+    }
 	m_entries[virt_path] = std::move(src);
 }
 
