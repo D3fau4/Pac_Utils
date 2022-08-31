@@ -215,14 +215,15 @@ lib_pac::pac_archive::insert(const std::string& virt_path, std::shared_ptr<file_
     std::string m_file = virt_path;
 	auto found = m_entries.find(m_file);
 	if (found != m_entries.end())
-		m_entries.erase(virt_path);
+		m_entries.erase(m_file);
     else
     {
         std::replace(m_file.begin(), m_file.end(), '/', '\\');
+        found = m_entries.find(m_file);
         if (found != m_entries.end())
-            m_entries.erase(virt_path);
+            m_entries.erase(m_file);
     }
-	m_entries[virt_path] = std::move(src);
+	m_entries[m_file] = std::move(src);
 }
 
 // Iterator
