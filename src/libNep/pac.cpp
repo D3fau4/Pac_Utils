@@ -198,8 +198,9 @@ std::shared_ptr<lib_pac::file_source_base>
 lib_pac::pac_archive::get(const std::string& file)
 {
     std::string m_file = file;
+    auto found = m_entries.find(m_file);
     std::replace(m_file.begin(), m_file.end(), '/', '\\');
-	auto found = m_entries.find(m_file);
+    auto found = m_entries.find(m_file);
 	if (found == m_entries.end())
 		return std::shared_ptr<file_source_base>(nullptr);
 	return found->second;
