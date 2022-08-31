@@ -77,6 +77,16 @@ pack_archive(const char *s)
     const float ratio = (save_info.compressed_size + save_info.header_size) * 100.f / (save_info.original_size);
 }
 
+void
+report_progress(const lib_pac::pac_archive::progress_info& prog_info)
+{
+    const int n_digits = ceil(log10(prog_info.num_files));
+    const float ratio = prog_info.compressed_size * 100.f / prog_info.raw_size;
+
+    std::cout << "[" << std::setw(n_digits) << prog_info.cur_file << "/" << prog_info.num_files << "] ";
+    std::cout << std::fixed << std::setprecision(0) << ratio << "% - " << prog_info.file_name << std::endl;
+}
+
 EXPORTS void
 patch_archive(const char *pac, const char *folder)
 {
@@ -103,8 +113,9 @@ patch_archive(const char *pac, const char *folder)
         fs::rename(target, bak_file);
     }
 
-    lib_pac::pac_archive archive(bak_file.string());
-
+    std::cout << "Reading archive: " << target.stem() << std::endl;
+    lib_pac::pac_archive archive(bak_file);
+    std::cout << "Replacing Files..." << std::endl;
     fs::recursive_directory_iterator iter(path);
 
     int n_repl = 0;
@@ -119,12 +130,23 @@ patch_archive(const char *pac, const char *folder)
                 auto ptr = std::make_unique<lib_pac::system_file_source>(it.path().string());
                 archive.insert(virt_path.string(), std::move(ptr));
             }
+            else
+            {
+                std::cout << "File '" << virt_path << "' not found in archive" << std::endl;
+            }
         }
     }
 
-    const auto save_info = archive.save(target.string(), nullptr);
+    std::cout << "Archive has " << archive.num_files() << " Files" << std::endl;
+    std::cout << "Replacing " << n_repl << " File(s)" << std::endl;
+    std::cout << "Compressing..." << std::endl;
+
+    const auto save_info = archive.save(target, report_progress);
 
     const float ratio = (save_info.compressed_size + save_info.header_size) * 100.f / (save_info.original_size);
+
+    std::cout << "Total Size       : " << save_info.compressed_size + save_info.header_size << std::endl;
+    std::cout << "Compression Ratio: " << std::fixed << std::setprecision(2) << ratio << "%" << std::endl;
 }
 
 EXPORTS void
